@@ -12,9 +12,9 @@
 
 2. **配置项目设置**
    - Framework Preset: `Vite`
-   - Build Command: `pnpm run build`
+   - Build Command: `npm run build`
    - Output Directory: `dist`
-   - Install Command: `pnpm install`
+   - Install Command: `npm install`
 
 3. **配置环境变量**
    在 Vercel 项目设置中添加以下环境变量：
@@ -79,6 +79,42 @@
 3. 进入 Settings → API
 4. 复制 Project URL 和 anon public key
 
+## 🔧 部署故障排除
+
+### 常见问题
+
+1. **pnpm 网络超时错误**
+   ```
+   WARN GET https://registry.npmjs.org/... error (ERR_INVALID_THIS)
+   ```
+   **解决方案**: 项目已配置使用 npm 替代 pnpm，并添加了 `.npmrc` 文件优化网络配置。
+
+2. **环境变量未生效**
+   - 确保环境变量名以 `VITE_` 开头
+   - 重新部署项目以应用新的环境变量
+
+3. **路由 404 错误**
+   - 确保配置了 SPA 重写规则
+   - Vercel: `vercel.json` 中的 rewrites 配置
+   - Netlify: `_redirects` 文件
+
+4. **构建失败**
+   - 检查 Node.js 版本是否兼容
+   - 确保所有依赖都已正确安装
+   - 检查 TypeScript 类型错误
+
+5. **Supabase 连接失败**
+   - 验证 Supabase URL 和 API Key 是否正确
+   - 检查 Supabase 项目是否已启用
+   - 确认网络连接正常
+
+### 网络优化配置
+
+项目包含 `.npmrc` 文件，配置了以下优化：
+- 增加网络请求超时时间
+- 配置重试机制
+- 使用稳定的 npm 镜像源
+
 ## 🌐 其他部署平台
 
 ### Netlify 部署
@@ -91,7 +127,7 @@
 
 2. **配置构建设置**
    ```
-   Build command: pnpm run build
+   Build command: npm run build
    Publish directory: dist
    ```
 
@@ -102,7 +138,7 @@
 
 1. **安装 gh-pages**
    ```bash
-   pnpm add -D gh-pages
+   npm install -D gh-pages
    ```
 
 2. **添加部署脚本**
@@ -110,14 +146,14 @@
    ```json
    {
      "scripts": {
-       "deploy": "pnpm run build && gh-pages -d dist"
+       "deploy": "npm run build && gh-pages -d dist"
      }
    }
    ```
 
 3. **部署**
    ```bash
-   pnpm run deploy
+   npm run deploy
    ```
 
 ### Docker 部署
@@ -128,11 +164,10 @@
    
    WORKDIR /app
    COPY package*.json ./
-   RUN npm install -g pnpm
-   RUN pnpm install
+   RUN npm install
    
    COPY . .
-   RUN pnpm run build
+   RUN npm run build
    
    FROM nginx:alpine
    COPY --from=builder /app/dist /usr/share/nginx/html
@@ -170,29 +205,6 @@
    docker build -t vue3-supabase-app .
    docker run -p 80:80 vue3-supabase-app
    ```
-
-## 🔧 部署故障排除
-
-### 常见问题
-
-1. **环境变量未生效**
-   - 确保环境变量名以 `VITE_` 开头
-   - 重新部署项目以应用新的环境变量
-
-2. **路由 404 错误**
-   - 确保配置了 SPA 重写规则
-   - Vercel: `vercel.json` 中的 rewrites 配置
-   - Netlify: `_redirects` 文件
-
-3. **构建失败**
-   - 检查 Node.js 版本是否兼容
-   - 确保所有依赖都已正确安装
-   - 检查 TypeScript 类型错误
-
-4. **Supabase 连接失败**
-   - 验证 Supabase URL 和 API Key 是否正确
-   - 检查 Supabase 项目是否已启用
-   - 确认网络连接正常
 
 ### 性能优化
 
@@ -235,5 +247,19 @@
 - `main`: 生产环境
 - `develop`: 开发环境
 - `feature/*`: 功能分支（预览部署）
+
+## 📝 本地开发
+
+虽然部署使用 npm，但本地开发仍推荐使用 pnpm：
+
+```bash
+# 本地开发
+pnpm install
+pnpm dev
+
+# 本地构建测试
+pnpm build
+pnpm preview
+```
 
 通过以上配置，您的 Vue3 + Supabase 应用就可以成功部署到各种平台了！
