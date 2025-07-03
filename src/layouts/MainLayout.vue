@@ -20,18 +20,24 @@
         @click="handleMenuClick"
       >
         <a-menu-item key="dashboard">
-          <DashboardOutlined />
-          <span>仪表板</span>
+          <template #icon>
+            <DashboardOutlined />
+          </template>
+          仪表板
         </a-menu-item>
-        
+
         <a-menu-item key="profile">
-          <UserOutlined />
-          <span>个人资料</span>
+          <template #icon>
+            <UserOutlined />
+          </template>
+          个人资料
         </a-menu-item>
-        
+
         <a-menu-item key="settings">
-          <SettingOutlined />
-          <span>设置</span>
+          <template #icon>
+            <SettingOutlined />
+          </template>
+          设置
         </a-menu-item>
       </a-menu>
     </a-layout-sider>
@@ -78,7 +84,10 @@
             <!-- 用户菜单 -->
             <a-dropdown>
               <a-button type="text" class="user-button">
-                <a-avatar :icon="h(UserOutlined)" />
+                <a-avatar
+                  :src="profileStore.avatarUrl"
+                  :icon="!profileStore.avatarUrl ? h(UserOutlined) : undefined"
+                />
                 <span class="user-name">{{ userEmail }}</span>
                 <DownOutlined />
               </a-button>
@@ -86,16 +95,22 @@
               <template #overlay>
                 <a-menu @click="handleUserMenuClick">
                   <a-menu-item key="profile">
-                    <UserOutlined />
+                    <template #icon>
+                      <UserOutlined />
+                    </template>
                     个人资料
                   </a-menu-item>
                   <a-menu-item key="settings">
-                    <SettingOutlined />
+                    <template #icon>
+                      <SettingOutlined />
+                    </template>
                     设置
                   </a-menu-item>
                   <a-menu-divider />
                   <a-menu-item key="logout">
-                    <LogoutOutlined />
+                    <template #icon>
+                      <LogoutOutlined />
+                    </template>
                     退出登录
                   </a-menu-item>
                 </a-menu>
@@ -135,7 +150,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, h } from 'vue'
+import { ref, computed, watch, h, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
@@ -151,12 +166,14 @@ import {
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
 import { useThemeStore } from '@/stores/theme'
+import { useProfileStore } from '@/stores/profile'
 import ThemeDrawerContent from '@/components/ThemeDrawerContent.vue'
 
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
 const themeStore = useThemeStore()
+const profileStore = useProfileStore()
 
 // 应用标题
 const appTitle = import.meta.env.VITE_APP_TITLE || 'Supabase Web App'
@@ -262,6 +279,31 @@ const handleUserMenuClick = async ({ key }: { key: string }) => {
       break
   }
 }
+
+// 初始化 profile store
+onMounted(async () => {
+  try {
+    if (authStore.user && !profileStore.initialized) {
+      await profileStore.initialize()
+    }
+  } catch (error) {
+    console.error('Failed to initialize profile:', error)
+  }
+})
+
+// 监听用户状态变化，自动初始化 profile
+watch(() => authStore.user, async (newUser) => {
+  try {
+    if (newUser && !profileStore.initialized) {
+      await profileStore.initialize()
+    } else if (!newUser) {
+      // 用户登出时重置 profile store
+      profileStore.reset()
+    }
+  } catch (error) {
+    console.error('Failed to initialize profile on user change:', error)
+  }
+}, { immediate: false })
 </script>
 
 <style scoped>

@@ -1,6 +1,8 @@
 // 导出所有类型定义
 export * from './auth'
 export * from './theme'
+export * from './profile'
+export * from './database'
 
 // 通用API响应接口
 export interface ApiResponse<T = any> {

@@ -7,12 +7,17 @@
 - 🚀 **现代技术栈**: Vue 3 + TypeScript + Vite + Pinia
 - 🎨 **UI 组件库**: Ant Design Vue 4.x
 - 🔐 **用户认证**: Supabase Auth (登录/注册/密码重置)
+- 👤 **用户资料**: 完整的个人资料管理系统
+- 📊 **活动记录**: 自动追踪用户操作历史
+- 🖼️ **头像上传**: Supabase Storage 头像管理
 - 📱 **响应式设计**: 支持桌面端和移动端
 - 🏗️ **模块化架构**: 按功能模块组织代码结构
 - 🎯 **TypeScript**: 完整的类型安全支持
 - 🔄 **状态管理**: Pinia 状态管理
 - 🛣️ **路由管理**: Vue Router 嵌套路由
 - 🎨 **主题定制**: 主色调、布局、样式个性化配置
+- 🛡️ **数据安全**: 行级安全策略(RLS)保护
+- 🧹 **自动清理**: 定时清理过期数据
 - 🌐 **一键部署**: 支持 Vercel、Netlify 等平台
 
 ## 🛠️ 技术栈
@@ -63,6 +68,25 @@ VITE_SUPABASE_ANON_KEY=your-anon-key-here
 VITE_APP_TITLE=Supabase Web App
 VITE_APP_DESCRIPTION=A modern Vue3 web application with Supabase backend
 ```
+
+### 数据库设置
+
+3. 在 Supabase Dashboard 中执行数据库初始化：
+
+```sql
+-- 在 SQL Editor 中执行完整的设置脚本
+\i sql/00_complete_setup.sql
+```
+
+或者复制 `sql/00_complete_setup.sql` 文件的内容到 Supabase SQL Editor 中执行。
+
+这个脚本将创建：
+- ✅ 用户资料表(profiles)
+- ✅ 用户活动记录表(user_activities)
+- ✅ 所有必要的函数和触发器
+- ✅ 行级安全策略(RLS)
+- ✅ Storage 配置
+- ✅ 自动清理机制
 
 ### 启动开发服务器
 

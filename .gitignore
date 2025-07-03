@@ -39,3 +39,4 @@ coverage
 
 # Supabase
 .supabase
+pnpm-lock.yaml
