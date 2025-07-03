@@ -356,7 +356,7 @@ export const useProfileStore = defineStore('profile', () => {
       }
 
       // 更新用户资料
-      const result = await updateProfile({ avatar_url: null })
+      const result = await updateProfile({ avatar_url: undefined })
       
       if (result.success) {
         result.message = '头像删除成功'

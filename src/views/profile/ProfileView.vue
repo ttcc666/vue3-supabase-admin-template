@@ -304,7 +304,6 @@ import Avatar from '@/components/Avatar.vue'
 import PasswordChangeModal from '@/components/PasswordChangeModal.vue'
 import { ActivityType, ActivityTypeIcons } from '@/types/activities'
 import type { ProfileFormData } from '@/types/profile'
-import type { Dayjs } from 'dayjs'
 import { useSecurity } from '@/composables/useSecurity'
 
 const authStore = useAuthStore()
