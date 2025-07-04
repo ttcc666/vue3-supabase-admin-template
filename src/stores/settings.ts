@@ -427,7 +427,7 @@ export const useSettingsStore = defineStore('settings', () => {
           system: DEFAULT_SYSTEM_SETTINGS,
           notification: DEFAULT_NOTIFICATION_SETTINGS,
           privacy: DEFAULT_PRIVACY_SETTINGS
-        }[category]
+        }[category as keyof typeof DEFAULT_SETTINGS]
 
         const items: SettingItem[] = Object.entries(defaultSettings).map(([key, value]) => ({
           category,
@@ -513,7 +513,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const stopRealtimeSubscription = async (): Promise<void> => {
     try {
       if (realtimeChannel.value) {
-        await supabase.removeChannel(realtimeChannel.value)
+        await supabase.removeChannel(realtimeChannel.value as any)
         realtimeChannel.value = null
         isSubscribed.value = false
         console.log('Settings realtime subscription stopped')
@@ -583,7 +583,7 @@ export const useSettingsStore = defineStore('settings', () => {
         privacy: DEFAULT_PRIVACY_SETTINGS
       }
 
-      const defaultValue = (defaults[category] as any)[key]
+      const defaultValue = (defaults[category as keyof typeof defaults] as any)[key]
       if (defaultValue !== undefined) {
         updateLocalSetting(category, key, defaultValue)
       }

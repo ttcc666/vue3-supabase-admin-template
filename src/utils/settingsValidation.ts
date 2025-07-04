@@ -121,7 +121,7 @@ export function validateSettings(
     }
 
     const result = validateSettingValue(category, key, value, rule)
-    if (result !== true) {
+    if (typeof result === 'string') {
       errors.push(result)
     }
   }
@@ -274,7 +274,7 @@ export function validateMultipleSettings(
     }
 
     const result = validateSettingValue(category, key, value, rule)
-    if (result !== true) {
+    if (typeof result === 'string') {
       errors.push(new SettingValidationError(
         category,
         key,
@@ -345,5 +345,5 @@ export function getDefaultSettingValue(category: SettingCategory, key: string): 
     }
   }
 
-  return defaults[category]?.[key] ?? null
+  return (defaults as any)[category]?.[key] ?? null
 }

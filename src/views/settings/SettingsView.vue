@@ -120,7 +120,7 @@
                 <a-select
                   v-model:value="settingsStore.system.language"
                   style="width: 100%"
-                  @change="(value) => handleSystemSettingChange('language', value)"
+                  @change="(value: any) => handleSystemSettingChange('language', value)"
                 >
                   <a-select-option
                     v-for="option in LANGUAGE_OPTIONS"
@@ -140,7 +140,7 @@
                 <a-select
                   v-model:value="settingsStore.system.timezone"
                   style="width: 100%"
-                  @change="(value) => handleSystemSettingChange('timezone', value)"
+                  @change="(value: any) => handleSystemSettingChange('timezone', value)"
                 >
                   <a-select-option
                     v-for="option in TIMEZONE_OPTIONS"
@@ -158,7 +158,7 @@
                 <a-select
                   v-model:value="settingsStore.system.dateFormat"
                   style="width: 100%"
-                  @change="(value) => handleSystemSettingChange('dateFormat', value)"
+                  @change="(value: any) => handleSystemSettingChange('dateFormat', value)"
                 >
                   <a-select-option
                     v-for="option in DATE_FORMAT_OPTIONS"
@@ -184,7 +184,7 @@
             </a-list-item-meta>
             <a-switch
               v-model:checked="settingsStore.notification[option.key]"
-              @change="(checked) => handleNotificationSettingChange(option.key, checked)"
+              @change="(checked: any) => handleNotificationSettingChange(option.key, checked)"
             />
           </a-list-item>
         </a-list>
@@ -203,7 +203,7 @@
             <a-switch
               v-if="option.type === 'switch'"
               v-model:checked="settingsStore.privacy[option.key]"
-              @change="(checked) => handlePrivacySettingChange(option.key, checked)"
+              @change="(checked: any) => handlePrivacySettingChange(option.key, checked)"
             />
 
             <!-- 选择类型 -->
@@ -211,7 +211,7 @@
               v-else-if="option.type === 'select'"
               v-model:value="settingsStore.privacy[option.key]"
               style="width: 120px"
-              @change="(value) => handlePrivacySettingChange(option.key, value)"
+              @change="(value: any) => handlePrivacySettingChange(option.key, value)"
             >
               <a-select-option
                 v-for="selectOption in option.options"

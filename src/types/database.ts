@@ -6,6 +6,41 @@
 export interface Database {
   public: {
     Tables: {
+      user_settings: {
+        Row: {
+          id: string
+          user_id: string
+          category: 'system' | 'notification' | 'privacy'
+          setting_key: string
+          setting_value: any
+          description: string | null
+          is_active: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          category: 'system' | 'notification' | 'privacy'
+          setting_key: string
+          setting_value: any
+          description?: string | null
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          category?: 'system' | 'notification' | 'privacy'
+          setting_key?: string
+          setting_value?: any
+          description?: string | null
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+      }
       profiles: {
         Row: {
           id: string
@@ -123,7 +158,7 @@ export interface Database {
       }
     }
     Enums: {
-      [_ in never]: never
+      setting_category: 'system' | 'notification' | 'privacy'
     }
     CompositeTypes: {
       [_ in never]: never

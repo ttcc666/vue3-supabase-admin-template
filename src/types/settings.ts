@@ -117,11 +117,11 @@ export const PRIVACY_SETTING_KEYS = {
   ALLOW_ANALYTICS: 'allowAnalytics'
 } as const
 
-export const PROFILE_VISIBILITY_OPTIONS = [
+export const PROFILE_VISIBILITY_OPTIONS: { value: string; label: string; }[] = [
   { value: 'public', label: '公开' },
   { value: 'friends', label: '仅好友' },
   { value: 'private', label: '私密' }
-] as const
+]
 
 export interface PrivacyOption {
   key: keyof PrivacySettings
