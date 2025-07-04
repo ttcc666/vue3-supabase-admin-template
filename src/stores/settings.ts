@@ -423,11 +423,12 @@ export const useSettingsStore = defineStore('settings', () => {
 
       if (category) {
         // 重置指定分类
-        const defaultSettings = {
+        const defaultSettingsMap = {
           system: DEFAULT_SYSTEM_SETTINGS,
           notification: DEFAULT_NOTIFICATION_SETTINGS,
           privacy: DEFAULT_PRIVACY_SETTINGS
-        }[category as keyof typeof DEFAULT_SETTINGS]
+        }
+        const defaultSettings = defaultSettingsMap[category as keyof typeof defaultSettingsMap]
 
         const items: SettingItem[] = Object.entries(defaultSettings).map(([key, value]) => ({
           category,
